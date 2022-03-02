@@ -148,6 +148,7 @@ namespace WemaBankAssignment
             services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
+            services.Configure<AlatDevSettings>(configuration.GetSection("AlatDevSettings"));
 
         }
         public static void AddApiServices(this IServiceCollection services)
@@ -155,11 +156,13 @@ namespace WemaBankAssignment
             services.AddScoped(typeof(IRefreshTokenGenerator), typeof(RefreshTokenGenerator));
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IEmailSender, EmailService>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ILgaRepository, LgaRepository>();
             services.AddScoped<IStateRepository, StateRepository>();
+            services.AddScoped<IAlatDevService, AlatDevService>();
+            services.AddScoped<IUtilityService, UtilityService>();
             services.AddScoped<NotificationService>();
         }
 

@@ -64,7 +64,7 @@ namespace WemaBankAssignment.Services
             }
             catch (Exception ex)
             {
-                _log.LogError($"Error in EpBackgroundService.SendCorporateOnboardingMail ->  {ex}");
+                _log.LogError($".GetBanks ->  {ex}");
 
                 return new GetBanksResponse
                 {

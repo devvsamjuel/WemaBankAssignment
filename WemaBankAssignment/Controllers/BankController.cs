@@ -6,7 +6,7 @@ using WemaBankAssignment.Integrations.AlatTechTest;
 using WemaBankAssignment.Interfaces;
 using WemaBankAssignment.Middleware;
 
-namespace WemaBank.Assignment.Api.Controllers
+namespace WemaBankAssignment.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -28,7 +28,7 @@ namespace WemaBank.Assignment.Api.Controllers
         /// <remarks>
         /// </remarks>
         [AllowAnonymous]
-        [HttpPost("GetBanks")]
+        [HttpGet("GetBanks")]
         [Produces(typeof(GetBanksResponse))]
         [ProducesErrorResponseType(typeof(ErrorDetails))]
         public async Task<IActionResult> GetBanks()

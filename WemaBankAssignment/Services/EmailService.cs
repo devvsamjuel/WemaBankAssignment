@@ -11,10 +11,10 @@ using WemaBankAssignment.Models.Configurations;
 
 namespace WemaBankAssignment.Services
 {
-    public class EmailSender : IEmailSender
+    public class EmailService : IEmailSender
     {
         private EmailSettings _emailSettings { get; }
-        public EmailSender(IOptions<EmailSettings> emailSettings)
+        public EmailService(IOptions<EmailSettings> emailSettings)
         {
             _emailSettings = emailSettings.Value;
         }

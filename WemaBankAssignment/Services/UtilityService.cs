@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 using WemaBankAssignment.Entities;
 using WemaBankAssignment.Interfaces;
 
-namespace epAuthentication.Services
+namespace WemaBankAssignment.Services
 {
     public class UtilityService : IUtilityService
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<UtilityService> log;
 
-        public UtilityService(ApplicationDbContext context, 
+        public UtilityService(ApplicationDbContext context,
             ILogger<UtilityService> _log
             )
         {

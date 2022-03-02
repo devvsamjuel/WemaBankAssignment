@@ -6,7 +6,7 @@ using WemaBankAssignment.Interfaces;
 using WemaBankAssignment.Middleware;
 using WemaBankAssignment.Models;
 
-namespace WemaBank.Assignment.Api.Controllers
+namespace WemaBankAssignment.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

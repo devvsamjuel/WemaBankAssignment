@@ -4,6 +4,7 @@ namespace WemaBankAssignment.Entities
 {
     public class ApplicationDbContext : AuditableDbContext
     {
+       
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
