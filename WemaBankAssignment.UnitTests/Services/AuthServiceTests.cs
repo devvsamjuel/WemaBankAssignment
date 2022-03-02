@@ -68,7 +68,7 @@ namespace WemaBankAssignment.UnitTests.Services
 
         #region TEST CASES
         [Test]
-        [Ignore("Already Passed!")]
+        //[Ignore("Already Passed!")]
         public void Register_UserAlreadyExist_ThrowsBadRequestException()
         {
             //Arrange

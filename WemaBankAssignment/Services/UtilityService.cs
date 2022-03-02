@@ -26,7 +26,7 @@ namespace WemaBankAssignment.Services
         }
 
 
-        public async Task SaveApiLogs(string userId, string token, DateTime requestTime, DateTime responseTime, string Url, string Response, string Request, string StatusCode, string StatusMessage, string Vendor, string RefId, string longitude, string latititude)
+        public async Task SaveApiLogs(string userId, string token, DateTime? requestTime, DateTime? responseTime, string Url, string Response, string Request, string StatusCode, string StatusMessage, string Vendor, string RefId, string longitude, string latititude)
         {
             try
             {
