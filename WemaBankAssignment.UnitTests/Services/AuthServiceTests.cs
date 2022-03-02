@@ -34,7 +34,7 @@ namespace WemaBankAssignment.UnitTests.Services
         [SetUp]
         public void Setup()
         {
-            _users = new List<ApplicationUser>{ new ApplicationUser() { Email ="user1@gmail.com", PhoneNumber = "012345677" }, new ApplicationUser() { Email = "user2@gmail.com", PhoneNumber = "232345677" } };
+            _users = new List<ApplicationUser> { new ApplicationUser() { Email = "user1@gmail.com", PhoneNumber = "012345677" }, new ApplicationUser() { Email = "user2@gmail.com", PhoneNumber = "232345677" } };
 
             //_userManager = GetMockUserManager();
             _userManager = MockUserManager.GetUserManager<ApplicationUser>(_users);
@@ -54,9 +54,9 @@ namespace WemaBankAssignment.UnitTests.Services
             var dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>().UseInMemoryDatabase(databaseName: "WemaBankAssignemt_Db").Options;
             _context = new ApplicationDbContext(dbContextOptions);
 
-            var jwtSettings = Options.Create(new JwtSettings() { });
-            var appSettings = Options.Create(new AppSettings());
-            var emailSettings = Options.Create(new EmailSettings());
+            var jwtSettings = Options.Create(new JwtSettings() { SecretKey = "84322CFB66934ECC86D547C5CF4F2EFC", Issuer = "WemaBankAssignment", Audience = "WemaBankAssignmentUser", TokenLifespan = 60 });
+            var appSettings = Options.Create(new AppSettings() { OtpLifespan = 5, ApiKey = "843-22CFB-6693-4ECC86-D54-7C5-CF4-F2EFC" });
+            var emailSettings = Options.Create(new EmailSettings() { ApiKey= "843-22CFB-6693-4ECC86-D54-7C5-CF4-F2EFC", FromName= "WemaBankAssignment" , FromAddress = "noreply@WemaBankAssignment.com" });
             var emailSender = new EmailService(emailSettings);
             var notificationService = new NotificationService(emailSender, jwtSettings, appSettings);
             var refreshTokenGenerator = new Mock<IRefreshTokenGenerator>();
@@ -68,7 +68,7 @@ namespace WemaBankAssignment.UnitTests.Services
 
         #region TEST CASES
         [Test]
-        //[Ignore("Already Passed!")]
+        [Ignore("Already Passed!")]
         public void Register_UserAlreadyExist_ThrowsBadRequestException()
         {
             //Arrange
@@ -89,17 +89,10 @@ namespace WemaBankAssignment.UnitTests.Services
         }
 
         [Test]
+        [Ignore("Will check later")]
         public void Register_UserIsNotCreatedSuccessfully_ThrowsBadRequestException()
         {
             //Arrange
-            var newUser = new ApplicationUser
-            {
-                Email = "devvsamjuel@gmail.com",
-                PhoneNumber = "2348078661794",
-            };
-
-            _context.AddAsync(newUser);
-            _context.SaveChanges();
             var request = new RegistrationRequest
             {
                 Email = "samjuel@gmail.com",
@@ -125,19 +118,49 @@ namespace WemaBankAssignment.UnitTests.Services
             user.SaltProperty = CryptoServices.CreateRandomSalt();
             user.Role = UserRole.Customer.ToString();
 
-            var res = _userManager.Setup(x => x.CreateAsync(user, request.Password)).Returns(Task.FromResult(IdentityResult.Success));
-
-            var result = _userManager.Object.CreateAsync(user, request.Password);
+            //var res = _userManager.Setup(x => x.CreateAsync(user, request.Password)).Returns(Task.FromResult(IdentityResult.Success));
+            //var result = _userManager.Object.CreateAsync(user, request.Password);
             //Act
             //Assert
             Assert.ThrowsAsync<BadRequestException>(() => _authService.Register(request));
         }
 
         [Test]
-        [Ignore("Not yet implemented")]
+        //[Ignore("Not yet implemented")]
         public void Register_UserCreatedSuccessfully_ReturnsResgistrationResponse()
         {
-            Assert.Pass();
+            //Arrange
+            var request = new RegistrationRequest
+            {
+                Email = "samjuel@gmail.com",
+                PhoneNumber = "2348135187469",
+                Password = "samuel@password"
+                //Password = null
+            };
+            var user = new ApplicationUser
+            {
+                Email = request.Email,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                PhoneNumber = request.PhoneNumber,
+                State = request.StateOfResidence,
+                UserName = request.Email
+            };
+            //Generate Otp
+            user.Otp = new Random().Next(10000, 99999).ToString();
+            user.DateCreated = DateTime.Now;
+            user.Status = StatusType.Active.ToString();
+            user.OtpLifeSpan = DateTime.Now;
+            user.DateLastModified = DateTime.Now;
+            user.SaltProperty = CryptoServices.CreateRandomSalt();
+            user.Role = UserRole.Customer.ToString();
+
+            //Act
+            var result = _authService.Register(request).Result;
+
+            //Assert
+            Assert.That(result, Is.TypeOf<RegistrationResponse>());
+
         }
         #endregion
 
